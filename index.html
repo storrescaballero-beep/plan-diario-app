@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plan Diario de Alto Rendimiento</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a31;
+      --panel-2: #182341;
+      --text: #edf2ff;
+      --muted: #aab6d3;
+      --line: #263457;
+      --accent: #6ea8fe;
+      --accent-2: #8ef0d0;
+      --danger: #ff7f7f;
+      --warning: #ffd166;
+      --success: #7ee787;
+      --shadow: 0 18px 40px rgba(0,0,0,.28);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0b1020" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(110,168,254,.18), transparent 25%),
+        radial-gradient(circle at top right, rgba(142,240,208,.12), transparent 22%),
+        linear-gradient(180deg, #08101f 0%, #0d1428 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 32px));
+      margin: 24px auto 48px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(110,168,254,.16), rgba(142,240,208,.09));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -.02em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 850px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1.2fr .9fr .9fr .9fr auto;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .stat, .button, .quote {
+      background: rgba(18, 26, 49, 0.9);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .button {
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 700;
+      transition: transform .18s ease, opacity .18s ease, border-color .18s ease;
+      min-height: 74px;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(110,168,254,.45);
+    }
+
+    .button.secondary {
+      background: rgba(24, 35, 65, 0.95);
+    }
+
+    .button.danger {
+      background: rgba(55, 16, 24, .95);
+      border-color: rgba(255,127,127,.22);
+    }
+
+    .quote {
+      margin-top: 16px;
+      color: var(--accent-2);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .progress-shell {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,.08);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width .35s ease;
+      border-radius: 999px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .cards {
+      display: grid;
+      gap: 16px;
+    }
+
+    .card {
+      background: rgba(18, 26, 49, 0.9);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .card.done {
+      border-color: rgba(126,231,135,.45);
+      background: linear-gradient(180deg, rgba(18, 26, 49, 0.93), rgba(17, 40, 29, .9));
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: #08101f;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      margin-bottom: 10px;
+    }
+
+    .time {
+      color: var(--warning);
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      margin-bottom: 6px;
+    }
+
+    .objective {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+      max-width: 760px;
+    }
+
+    .counter {
+      min-width: 74px;
+      text-align: center;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 16px;
+      padding: 10px 12px;
+    }
+
+    .counter strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .counter span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .tasks {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 14px;
+      padding: 12px 14px;
+      transition: background .18s ease, border-color .18s ease;
+    }
+
+    .task:hover {
+      background: rgba(255,255,255,.06);
+      border-color: rgba(110,168,254,.22);
+    }
+
+    .task input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .task label {
+      flex: 1;
+      cursor: pointer;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    .task.checked label {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .side {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .side h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: -.02em;
+    }
+
+    .side p, .side li {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .list-clean {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .mini-item {
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.04);
+    }
+
+    .notes {
+      width: 100%;
+      min-height: 170px;
+      resize: vertical;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(9, 15, 28, .9);
+      color: var(--text);
+      padding: 14px;
+      font: inherit;
+      outline: none;
+    }
+
+    .notes:focus {
+      border-color: rgba(110,168,254,.45);
+      box-shadow: 0 0 0 3px rgba(110,168,254,.12);
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.06);
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 20px, 100%);
+        margin-top: 12px;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .card-header {
+        flex-direction: column;
+      }
+
+      .title {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Plan Diario de Alto Rendimiento</h1>
+      <p>
+        Esta app no está hecha para entretenerte. Está hecha para obligarte a ejecutar. Marca cada bloque,
+        mide progreso real, protege tu energía y evita que te disperses. Tu misión hasta abril es llegar más fuerte,
+        más claro y más peligroso profesionalmente.
+      </p>
+
+      <div class="toolbar">
+        <div class="stat">
+          <div class="stat-label">Progreso del día</div>
+          <div class="stat-value" id="progressValue">0%</div>
+          <div class="progress-shell">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Tareas completadas</div>
+          <div class="stat-value" id="completedTasks">0 / 0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Fecha</div>
+          <div class="stat-value" id="todayLabel" style="font-size:20px"></div>
+        </div>
+
+        <button class="button secondary" id="markAllBtn" type="button">
+          Completar todo<br><span style="font-size:12px;color:var(--muted);font-weight:600">solo si de verdad lo has hecho</span>
+        </button>
+
+        <button class="button danger" id="resetBtn" type="button">
+          Reiniciar día<br><span style="font-size:12px;color:var(--muted);font-weight:600">borra checks y notas</span>
+        </button>
+      </div>
+
+      <div class="quote" id="dailyMessage"></div>
+    </section>
+
+    <div class="main-grid">
+      <section class="cards" id="cardsContainer"></section>
+
+      <aside class="side">
+        <div class="card">
+          <h3>Prioridades reales</h3>
+          <ul class="list-clean">
+            <li class="mini-item"><strong>1. Nuevo proyecto</strong><br>Oferta, foco, plan comercial y sistema.</li>
+            <li class="mini-item"><strong>2. IA aplicada</strong><br>No estudiar por estudiar. Construir algo usable.</li>
+            <li class="mini-item"><strong>3. Inglés de negocio</strong><br>Menos teoría, más speaking y escucha.</li>
+            <li class="mini-item"><strong>4. Energía y disciplina</strong><br>Tu ventaja está en sostener el ritmo.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Reglas del juego</h3>
+          <div class="pill-row">
+            <span class="pill">No multitarea</span>
+            <span class="pill">No móvil en bloques clave</span>
+            <span class="pill">Primero negocio</span>
+            <span class="pill">Acción > preparación</span>
+            <span class="pill">Consistencia brutal</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Notas del día</h3>
+          <textarea id="dailyNotes" class="notes" placeholder="Escribe aquí lo importante: ideas, aprendizajes, bloqueos, próximas acciones..."></textarea>
+          <div class="footer-note">
+            Se guarda automáticamente en tu navegador. Si cambias de dispositivo o borras datos del navegador, lo pierdes.
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Qué no debes hacer</h3>
+          <ul class="list-clean">
+            <li class="mini-item">Llenarte el día de tareas pequeñas para sentirte productivo.</li>
+            <li class="mini-item">Consumir contenido de IA sin aplicar nada en tu trabajo real.</li>
+            <li class="mini-item">Pensar que mejorar LinkedIn es solo cambiar la foto o publicar.</li>
+            <li class="mini-item">Confundir cansancio con avance.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // ==============================
+    // CONFIGURACIÓN PRINCIPAL
+    // ==============================
+    // Aquí defines el plan diario. Si quieres cambiar horarios o tareas,
+    // toca este array y la app se actualiza sola.
+    const planBlocks = [
+      {
+        id: "morning-training",
+        time: "07:30 - 09:00",
+        category: "Energía",
+        title: "Entrenamiento mañana",
+        objective: "Arrancar con fuerza, activar cuerpo y cabeza. Este bloque no se negocia.",
+        tasks: [
+          { id: "train-am", label: "Entrenamiento de mañana completado" },
+          { id: "breath-meditation", label: "Meditación y respiración consciente 10-15 min" },
+          { id: "post-workout-reset", label: "Desayuno / recuperación / transición sin prisa" }
+        ]
+      },
+      {
+        id: "deep-growth",
+        time: "09:30 - 12:00",
+        category: "Crecimiento",
+        title: "IA + Inglés de negocio",
+        objective: "Subir nivel real. No consumir sin sentido. Aprender con aplicación.",
+        tasks: [
+          { id: "founderz", label: "Curso Founderz IA / bloque práctico" },
+          { id: "ai-application", label: "Aplicar una idea de IA a tu sector o flujo real" },
+          { id: "business-english", label: "Inglés activo: speaking / listening / vocabulario" }
+        ]
+      },
+      {
+        id: "business-core",
+        time: "12:00 - 13:15",
+        category: "Negocio",
+        title: "Construcción del nuevo proyecto",
+        objective: "Definir oferta, foco y plan de ataque. Aquí se construye tu siguiente nivel.",
+        tasks: [
+          { id: "offer", label: "Trabajar oferta / posicionamiento / propuesta de valor" },
+          { id: "pipeline", label: "Organizar plan comercial, targets o pipeline" },
+          { id: "next-step-business", label: "Dejar definida una siguiente acción de negocio clara" }
+        ]
+      },
+      {
+        id: "lunch-reset",
+        time: "13:30 - 14:30",
+        category: "Recuperación",
+        title: "Comida + pausa útil",
+        objective: "Comer bien y bajar revoluciones. Recuperar sin caer en la dispersión.",
+        tasks: [
+          { id: "lunch", label: "Comida realizada sin prisas" },
+          { id: "mental-reset", label: "Pausa mental breve / caminar / despejar" }
+        ]
+      },
+      {
+        id: "admin-impact",
+        time: "14:30 - 16:30",
+        category: "Impacto",
+        title: "LinkedIn, trámites y organización",
+        objective: "Preparar terreno sin confundir preparación con avance. Prioriza lo que desbloquea.",
+        tasks: [
+          { id: "linkedin", label: "Mejora de perfil, propuesta o estrategia de LinkedIn" },
+          { id: "content", label: "Borrador de contenido, ideas o narrativa del nuevo proyecto" },
+          { id: "admin", label: "Trámites clave: SMAC, SEPE o gestión personal" },
+          { id: "home", label: "Tareas del hogar / organización básica" }
+        ]
+      },
+      {
+        id: "reading",
+        time: "16:30 - 17:00",
+        category: "Claridad",
+        title: "Lectura estratégica",
+        objective: "Leer para pensar mejor, no para rellenar el día.",
+        tasks: [
+          { id: "reading-time", label: "Lectura 20-30 min" },
+          { id: "reading-note", label: "Anotar una idea útil o reflexión accionable" }
+        ]
+      },
+      {
+        id: "pm-physical",
+        time: "18:00 - 19:00",
+        category: "Energía",
+        title: "Entreno corto + estiramientos",
+        objective: "Segundo estímulo ligero para descargar, mantener forma y proteger el cuerpo.",
+        tasks: [
+          { id: "train-pm", label: "Entreno tarde 30 min" },
+          { id: "stretching", label: "Estiramientos / movilidad 30 min" }
+        ]
+      },
+      {
+        id: "care-transition",
+        time: "19:00 - 19:30",
+        category: "Recuperación",
+        title: "Ducha, aseo y transición",
+        objective: "Cerrar el bloque físico y entrar limpio al final del día.",
+        tasks: [
+          { id: "shower", label: "Ducha y aseo completados" },
+          { id: "transition", label: "Transición mental al cierre del día" }
+        ]
+      },
+      {
+        id: "evening-close",
+        time: "20:00 - 21:00",
+        category: "Cierre",
+        title: "Cierre del día",
+        objective: "Revisar, medir y preparar mañana. Lo que no se mide se diluye.",
+        tasks: [
+          { id: "day-review", label: "Revisión honesta del día" },
+          { id: "next-3", label: "Definir 3 prioridades de mañana" },
+          { id: "passive-english", label: "Inglés pasivo 15-20 min" }
+        ]
+      }
+    ];
+
+    // Mensajes duros para evitar complacencia.
+    const dailyMessages = [
+      "No te hace falta más tiempo. Te hace falta menos autoengaño.",
+      "Estar ocupado no impresiona a nadie. Avanzar sí.",
+      "Tu ventaja competitiva no saldrá de pensar más. Saldrá de ejecutar mejor.",
+      "Si hoy no construyes algo real, mañana volverás a empezar desde cero.",
+      "Disciplina no es hacer mucho. Es hacer lo importante aunque no apetezca."
+    ];
+
+    // Clave de localStorage. Aquí se guarda todo en el navegador.
+    const STORAGE_KEY = "sergio_plan_diario_app_v1";
+
+    // ==============================
+    // ESTADO DE LA APP
+    // ==============================
+    let state = loadState();
+
+    // ==============================
+    // UTILIDADES
+    // ==============================
+    function getTodayKey() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatTodayLabel() {
+      return new Intl.DateTimeFormat("es-ES", {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+      }).format(new Date());
+    }
+
+    function capitalize(text) {
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function flattenTasks() {
+      return planBlocks.flatMap(block => block.tasks.map(task => task.id));
+    }
+
+    function getProgress() {
+      const allTasks = flattenTasks();
+      const completed = allTasks.filter(id => state.tasks[id]).length;
+      const total = allTasks.length;
+      const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+      return { completed, total, percentage };
+    }
+
+    function getBlockProgress(block) {
+      const total = block.tasks.length;
+      const completed = block.tasks.filter(task => state.tasks[task.id]).length;
+      return { completed, total };
+    }
+
+    function getDailyMessage() {
+      const index = new Date().getDate() % dailyMessages.length;
+      return dailyMessages[index];
+    }
+
+    // ==============================
+    // PERSISTENCIA
+    // ==============================
+    function createDefaultState() {
+      return {
+        dateKey: getTodayKey(),
+        tasks: {},
+        notes: ""
+      };
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return createDefaultState();
+
+        const parsed = JSON.parse(raw);
+
+        // Si cambia el día, reseteamos checks pero mantenemos la estructura limpia.
+        if (parsed.dateKey !== getTodayKey()) {
+          return createDefaultState();
+        }
+
+        return {
+          dateKey: parsed.dateKey || getTodayKey(),
+          tasks: parsed.tasks || {},
+          notes: parsed.notes || ""
+        };
+      } catch (error) {
+        console.error("Error cargando estado:", error);
+        return createDefaultState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    // ==============================
+    // RENDERIZADO
+    // ==============================
+    function renderHeader() {
+      const { completed, total, percentage } = getProgress();
+      document.getElementById("progressValue").textContent = `${percentage}%`;
+      document.getElementById("completedTasks").textContent = `${completed} / ${total}`;
+      document.getElementById("progressBar").style.width = `${percentage}%`;
+      document.getElementById("todayLabel").textContent = capitalize(formatTodayLabel());
+      document.getElementById("dailyMessage").textContent = getDailyMessage();
+      document.getElementById("dailyNotes").value = state.notes;
+    }
+
+    function renderCards() {
+      const container = document.getElementById("cardsContainer");
+      container.innerHTML = "";
+
+      planBlocks.forEach(block => {
+        const { completed, total } = getBlockProgress(block);
+        const isDone = completed === total;
+
+        const card = document.createElement("article");
+        card.className = `card ${isDone ? "done" : ""}`;
+
+        const tasksHTML = block.tasks.map(task => {
+          const checked = !!state.tasks[task.id];
+          return `
+            <div class="task ${checked ? "checked" : ""}">
+              <input
+                type="checkbox"
+                id="${task.id}"
+                ${checked ? "checked" : ""}
+                data-task-id="${task.id}"
+              />
+              <label for="${task.id}">${task.label}</label>
+            </div>
+          `;
+        }).join("");
+
+        card.innerHTML = `
+          <div class="card-header">
+            <div>
+              <div class="tag">${block.category}</div>
+              <div class="time">${block.time}</div>
+              <div class="title">${block.title}</div>
+              <div class="objective">${block.objective}</div>
+            </div>
+            <div class="counter">
+              <strong>${completed}/${total}</strong>
+              <span>hecho</span>
+            </div>
+          </div>
+          <div class="tasks">${tasksHTML}</div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      attachCheckboxEvents();
+    }
+
+    function renderApp() {
+      renderHeader();
+      renderCards();
+    }
+
+    // ==============================
+    // EVENTOS
+    // ==============================
+    function attachCheckboxEvents() {
+      document.querySelectorAll("input[data-task-id]").forEach(checkbox => {
+        checkbox.addEventListener("change", event => {
+          const taskId = event.target.dataset.taskId;
+          state.tasks[taskId] = event.target.checked;
+          saveState();
+          renderApp();
+        });
+      });
+    }
+
+    document.getElementById("dailyNotes").addEventListener("input", event => {
+      state.notes = event.target.value;
+      saveState();
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      const confirmed = confirm("Esto borrará checks y notas del día actual. ¿Seguro?");
+      if (!confirmed) return;
+      state = createDefaultState();
+      saveState();
+      renderApp();
+    });
+
+    document.getElementById("markAllBtn").addEventListener("click", () => {
+      flattenTasks().forEach(taskId => {
+        state.tasks[taskId] = true;
+      });
+      saveState();
+      renderApp();
+    });
+
+    // ==============================
+    // INICIALIZACIÓN
+    // ==============================
+    renderApp();
+
+    // ==============================
+    // CÓMO PERSONALIZAR ESTA APP
+    // ==============================
+    // 1) Cambiar horarios o títulos:
+    //    Edita el array "planBlocks".
+    //
+    // 2) Añadir nuevas tareas:
+    //    Dentro de cada bloque, mete otro objeto en "tasks":
+    //    { id: "nuevo-id", label: "Texto de la tarea" }
+    //
+    // 3) Cambiar textos duros o mensajes:
+    //    Edita el array "dailyMessages".
+    //
+    // 4) Guardado de avances:
+    //    La app usa localStorage. Se guarda solo en este navegador.
+    //
+    // 5) Si quieres histórico por días:
+    //    Hay que ampliar la lógica para guardar por fecha sin resetear.
+    //    Ahora mismo está hecha para foco diario, no para analítica histórica.
+  </script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js");
+    });
+  }
+</script>
+</body>
+</html>
