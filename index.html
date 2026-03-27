@@ -3,132 +3,189 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plan Diario de Alto Rendimiento</title>
+  <title>Plan Diario de Sergio | Alto Rendimiento</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#111827" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <style>
     :root {
-      --bg: #0b1020;
-      --panel: #121a31;
-      --panel-2: #182341;
-      --text: #edf2ff;
-      --muted: #aab6d3;
-      --line: #263457;
-      --accent: #6ea8fe;
-      --accent-2: #8ef0d0;
-      --danger: #ff7f7f;
-      --warning: #ffd166;
-      --success: #7ee787;
-      --shadow: 0 18px 40px rgba(0,0,0,.28);
-      --radius: 18px;
+      --bg: #09111f;
+      --bg-2: #111827;
+      --panel: rgba(17, 24, 39, 0.92);
+      --panel-2: rgba(30, 41, 59, 0.9);
+      --panel-3: rgba(15, 23, 42, 0.95);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --line: rgba(255,255,255,.10);
+      --accent: #22d3ee;
+      --accent-2: #a3e635;
+      --accent-3: #f97316;
+      --accent-4: #8b5cf6;
+      --danger: #fb7185;
+      --warning: #fbbf24;
+      --success: #4ade80;
+      --shadow: 0 20px 45px rgba(0,0,0,.28);
+      --radius: 20px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#0b1020" />
-<link rel="apple-touch-icon" href="icon-192.png" />
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(110,168,254,.18), transparent 25%),
-        radial-gradient(circle at top right, rgba(142,240,208,.12), transparent 22%),
-        linear-gradient(180deg, #08101f 0%, #0d1428 100%);
+        radial-gradient(circle at top left, rgba(34,211,238,.22), transparent 25%),
+        radial-gradient(circle at top right, rgba(139,92,246,.18), transparent 24%),
+        radial-gradient(circle at bottom left, rgba(163,230,53,.14), transparent 22%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
       color: var(--text);
       min-height: 100vh;
     }
 
     .container {
-      width: min(1200px, calc(100% - 32px));
-      margin: 24px auto 48px;
+      width: min(1380px, calc(100% - 28px));
+      margin: 20px auto 50px;
     }
 
     .hero {
-      background: linear-gradient(135deg, rgba(110,168,254,.16), rgba(142,240,208,.09));
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 24px;
-      padding: 26px;
+      background: linear-gradient(135deg, rgba(34,211,238,.18), rgba(139,92,246,.14), rgba(163,230,53,.10));
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 28px;
+      padding: 24px;
       box-shadow: var(--shadow);
-      margin-bottom: 20px;
-      backdrop-filter: blur(10px);
+      margin-bottom: 18px;
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .hero h1 {
-      margin: 0 0 10px;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.05;
-      letter-spacing: -.02em;
+      margin: 0 0 8px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.03;
+      letter-spacing: -.03em;
+    }
+
+    .hero .name-accent {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .hero p {
       margin: 0;
       color: var(--muted);
-      max-width: 850px;
+      max-width: 930px;
       font-size: 15px;
-      line-height: 1.5;
+      line-height: 1.55;
+    }
+
+    .hero-badge {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight: 800;
+      color: var(--accent-2);
+      min-width: 210px;
+      text-align: center;
     }
 
     .toolbar {
       display: grid;
-      grid-template-columns: 1.2fr .9fr .9fr .9fr auto;
+      grid-template-columns: repeat(6, minmax(0,1fr));
       gap: 12px;
       margin-top: 18px;
     }
 
-    .stat, .button, .quote {
-      background: rgba(18, 26, 49, 0.9);
-      border: 1px solid rgba(255,255,255,.07);
+    .stat, .button, .quote, .tabs, .dashboard, .panel-box {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.08);
       border-radius: var(--radius);
       padding: 14px 16px;
       box-shadow: var(--shadow);
     }
 
     .stat-label {
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: .08em;
+      letter-spacing: .1em;
       color: var(--muted);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      font-weight: 700;
     }
 
     .stat-value {
-      font-size: 26px;
-      font-weight: 800;
+      font-size: 28px;
+      font-weight: 900;
       line-height: 1;
     }
 
     .button {
       cursor: pointer;
       color: var(--text);
-      font-weight: 700;
-      transition: transform .18s ease, opacity .18s ease, border-color .18s ease;
-      min-height: 74px;
+      font-weight: 800;
+      transition: transform .18s ease, opacity .18s ease, border-color .18s ease, filter .18s ease;
+      min-height: 88px;
+      font: inherit;
     }
 
     .button:hover {
-      transform: translateY(-1px);
-      border-color: rgba(110,168,254,.45);
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+    }
+
+    .button.primary {
+      background: linear-gradient(135deg, rgba(34,211,238,.24), rgba(34,211,238,.15));
+      border-color: rgba(34,211,238,.45);
     }
 
     .button.secondary {
-      background: rgba(24, 35, 65, 0.95);
+      background: linear-gradient(135deg, rgba(139,92,246,.22), rgba(59,130,246,.12));
+      border-color: rgba(139,92,246,.35);
+    }
+
+    .button.warning {
+      background: linear-gradient(135deg, rgba(249,115,22,.22), rgba(251,191,36,.12));
+      border-color: rgba(251,191,36,.34);
     }
 
     .button.danger {
-      background: rgba(55, 16, 24, .95);
-      border-color: rgba(255,127,127,.22);
+      background: linear-gradient(135deg, rgba(244,63,94,.20), rgba(127,29,29,.18));
+      border-color: rgba(251,113,133,.30);
+    }
+
+    .button-sub {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      display: block;
+      margin-top: 6px;
     }
 
     .quote {
       margin-top: 16px;
-      color: var(--accent-2);
-      font-weight: 600;
+      color: var(--text);
+      font-weight: 700;
       line-height: 1.5;
+      background: linear-gradient(135deg, rgba(15,23,42,.92), rgba(30,41,59,.92));
+      border-left: 4px solid var(--accent);
     }
 
     .progress-shell {
       width: 100%;
-      height: 12px;
+      height: 13px;
       background: rgba(255,255,255,.08);
       border-radius: 999px;
       overflow: hidden;
@@ -138,25 +195,147 @@
     .progress-bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      background: linear-gradient(90deg, var(--accent), var(--accent-4), var(--accent-2));
       transition: width .35s ease;
       border-radius: 999px;
     }
 
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0 16px;
+      padding: 12px;
+      background: rgba(15,23,42,.8);
+    }
+
+    .tab-btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 16px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(34,211,238,.24), rgba(163,230,53,.20));
+      border-color: rgba(34,211,238,.42);
+      color: #fff;
+    }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .dashboard {
+      padding: 18px;
+      margin-bottom: 18px;
+      background: linear-gradient(180deg, rgba(15,23,42,.94), rgba(17,24,39,.92));
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr .9fr .9fr;
+      gap: 14px;
+    }
+
+    .chart-box, .history-box, .summary-box, .streak-box {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .box-title {
+      font-size: 14px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: .01em;
+    }
+
+    .mini-chart {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      align-items: end;
+      min-height: 170px;
+    }
+
+    .bar-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bar-wrap {
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .bar {
+      width: 100%;
+      max-width: 30px;
+      border-radius: 12px 12px 6px 6px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-4), var(--accent-2));
+      min-height: 8px;
+      box-shadow: 0 8px 22px rgba(34,211,238,.20);
+    }
+
+    .bar-label, .bar-value {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .summary-number {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 10px;
+      max-height: 260px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .history-item strong { font-size: 14px; }
+    .history-item span { color: var(--muted); font-size: 12px; }
+
     .main-grid {
       display: grid;
       grid-template-columns: 1.25fr .75fr;
-      gap: 20px;
-      margin-top: 20px;
+      gap: 18px;
     }
 
-    .cards {
+    .cards, .extra-tasks-list {
       display: grid;
       gap: 16px;
     }
 
     .card {
-      background: rgba(18, 26, 49, 0.9);
+      background: linear-gradient(180deg, rgba(17,24,39,.92), rgba(15,23,42,.94));
       border: 1px solid rgba(255,255,255,.08);
       border-radius: 22px;
       padding: 18px;
@@ -164,8 +343,8 @@
     }
 
     .card.done {
-      border-color: rgba(126,231,135,.45);
-      background: linear-gradient(180deg, rgba(18, 26, 49, 0.93), rgba(17, 40, 29, .9));
+      border-color: rgba(74,222,128,.45);
+      background: linear-gradient(180deg, rgba(9, 35, 25, 0.96), rgba(15,23,42,.92));
     }
 
     .card-header {
@@ -179,11 +358,11 @@
     .tag {
       display: inline-flex;
       align-items: center;
-      padding: 6px 10px;
+      padding: 7px 11px;
       border-radius: 999px;
       font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .02em;
+      font-weight: 800;
+      letter-spacing: .03em;
       color: #08101f;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       margin-bottom: 10px;
@@ -191,15 +370,15 @@
 
     .time {
       color: var(--warning);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 14px;
       margin-bottom: 6px;
     }
 
     .title {
       font-size: 24px;
-      font-weight: 800;
-      line-height: 1.1;
+      font-weight: 900;
+      line-height: 1.08;
       letter-spacing: -.02em;
       margin-bottom: 6px;
     }
@@ -212,17 +391,17 @@
     }
 
     .counter {
-      min-width: 74px;
+      min-width: 86px;
       text-align: center;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
       border-radius: 16px;
       padding: 10px 12px;
     }
 
     .counter strong {
       display: block;
-      font-size: 24px;
+      font-size: 26px;
       line-height: 1;
       margin-bottom: 4px;
     }
@@ -242,22 +421,22 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.05);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.06);
       border-radius: 14px;
       padding: 12px 14px;
       transition: background .18s ease, border-color .18s ease;
     }
 
     .task:hover {
-      background: rgba(255,255,255,.06);
-      border-color: rgba(110,168,254,.22);
+      background: rgba(255,255,255,.075);
+      border-color: rgba(34,211,238,.30);
     }
 
     .task input[type="checkbox"] {
       width: 20px;
       height: 20px;
-      accent-color: var(--accent);
+      accent-color: var(--accent-3);
       cursor: pointer;
       flex: 0 0 auto;
     }
@@ -266,7 +445,7 @@
       flex: 1;
       cursor: pointer;
       line-height: 1.35;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .task.checked label {
@@ -280,13 +459,13 @@
       align-content: start;
     }
 
-    .side h3 {
+    .side h3, .panel-box h3 {
       margin: 0 0 12px;
       font-size: 18px;
       letter-spacing: -.02em;
     }
 
-    .side p, .side li {
+    .side p, .side li, .panel-box p {
       color: var(--muted);
       font-size: 14px;
       line-height: 1.5;
@@ -307,10 +486,8 @@
       background: rgba(255,255,255,.04);
     }
 
-    .notes {
+    .notes, .task-text, .task-select {
       width: 100%;
-      min-height: 170px;
-      resize: vertical;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.08);
       background: rgba(9, 15, 28, .9);
@@ -320,9 +497,16 @@
       outline: none;
     }
 
-    .notes:focus {
-      border-color: rgba(110,168,254,.45);
-      box-shadow: 0 0 0 3px rgba(110,168,254,.12);
+    .task-select { padding: 12px 14px; }
+
+    .notes {
+      min-height: 170px;
+      resize: vertical;
+    }
+
+    .notes:focus, .task-text:focus, .task-select:focus {
+      border-color: rgba(34,211,238,.55);
+      box-shadow: 0 0 0 3px rgba(34,211,238,.14);
     }
 
     .footer-note {
@@ -347,32 +531,97 @@
       font-weight: 700;
     }
 
-    @media (max-width: 980px) {
-      .toolbar {
+    .form-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .extra-task-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .extra-task-item.done {
+      border-color: rgba(74,222,128,.42);
+      background: rgba(20, 83, 45, .22);
+    }
+
+    .extra-task-title {
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .extra-task-meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .icon-btn {
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 9px 12px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .icon-btn.delete {
+      color: #ffe4e6;
+      border-color: rgba(251,113,133,.28);
+      background: rgba(127,29,29,.25);
+    }
+
+    .icon-btn.edit {
+      color: #ecfeff;
+      border-color: rgba(34,211,238,.28);
+      background: rgba(8, 47, 73, .30);
+    }
+
+    .empty-state {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px dashed rgba(255,255,255,.16);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 1160px) {
+      .toolbar, .dashboard-grid {
         grid-template-columns: 1fr 1fr;
       }
+    }
 
+    @media (max-width: 980px) {
       .main-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 640px) {
-      .container {
-        width: min(100% - 20px, 100%);
-        margin-top: 12px;
+    @media (max-width: 700px) {
+      .toolbar, .dashboard-grid {
+        grid-template-columns: 1fr;
       }
 
-      .toolbar {
-        grid-template-columns: 1fr;
+      .container {
+        width: min(100% - 16px, 100%);
+        margin-top: 12px;
       }
 
       .card-header {
         flex-direction: column;
       }
 
-      .title {
-        font-size: 21px;
+      .extra-task-item {
+        grid-template-columns: auto 1fr;
       }
     }
   </style>
@@ -380,20 +629,22 @@
 <body>
   <div class="container">
     <section class="hero">
-      <h1>Plan Diario de Alto Rendimiento</h1>
-      <p>
-        Esta app no está hecha para entretenerte. Está hecha para obligarte a ejecutar. Marca cada bloque,
-        mide progreso real, protege tu energía y evita que te disperses. Tu misión hasta abril es llegar más fuerte,
-        más claro y más peligroso profesionalmente.
-      </p>
+      <div class="hero-top">
+        <div>
+          <h1>Plan de Alto Rendimiento de <span class="name-accent">Sergio</span></h1>
+          <p>
+            Esta app no está hecha para entretenerte. Está hecha para obligarte a ejecutar. Ahora además tiene histórico,
+            dashboard real, tareas extra no diarias y edición rápida para que dejes de improvisar y empieces a medir.
+          </p>
+        </div>
+        <div class="hero-badge" id="todayFocusBadge">Hoy toca ejecutar</div>
+      </div>
 
       <div class="toolbar">
         <div class="stat">
           <div class="stat-label">Progreso del día</div>
           <div class="stat-value" id="progressValue">0%</div>
-          <div class="progress-shell">
-            <div class="progress-bar" id="progressBar"></div>
-          </div>
+          <div class="progress-shell"><div class="progress-bar" id="progressBar"></div></div>
         </div>
 
         <div class="stat">
@@ -406,71 +657,151 @@
           <div class="stat-value" id="todayLabel" style="font-size:20px"></div>
         </div>
 
-        <button class="button secondary" id="markAllBtn" type="button">
-          Completar todo<br><span style="font-size:12px;color:var(--muted);font-weight:600">solo si de verdad lo has hecho</span>
+        <button class="button primary" id="markAllBtn" type="button">
+          Completar todo
+          <span class="button-sub">solo si de verdad lo has hecho</span>
+        </button>
+
+        <button class="button warning" id="saveDayBtn" type="button">
+          Guardar día
+          <span class="button-sub">fuerza registro en histórico</span>
         </button>
 
         <button class="button danger" id="resetBtn" type="button">
-          Reiniciar día<br><span style="font-size:12px;color:var(--muted);font-weight:600">borra checks y notas</span>
+          Reiniciar día
+          <span class="button-sub">borra checks y notas de hoy</span>
         </button>
       </div>
 
       <div class="quote" id="dailyMessage"></div>
     </section>
 
-    <div class="main-grid">
-      <section class="cards" id="cardsContainer"></section>
+    <section class="tabs">
+      <button class="tab-btn active" data-view="todayView">Hoy</button>
+      <button class="tab-btn" data-view="dashboardView">Dashboard</button>
+      <button class="tab-btn" data-view="extraTasksView">Tareas extra</button>
+    </section>
 
-      <aside class="side">
-        <div class="card">
-          <h3>Prioridades reales</h3>
-          <ul class="list-clean">
-            <li class="mini-item"><strong>1. Nuevo proyecto</strong><br>Oferta, foco, plan comercial y sistema.</li>
-            <li class="mini-item"><strong>2. IA aplicada</strong><br>No estudiar por estudiar. Construir algo usable.</li>
-            <li class="mini-item"><strong>3. Inglés de negocio</strong><br>Menos teoría, más speaking y escucha.</li>
-            <li class="mini-item"><strong>4. Energía y disciplina</strong><br>Tu ventaja está en sostener el ritmo.</li>
-          </ul>
-        </div>
+    <section class="view active" id="todayView">
+      <div class="main-grid">
+        <section class="cards" id="cardsContainer"></section>
 
-        <div class="card">
-          <h3>Reglas del juego</h3>
-          <div class="pill-row">
-            <span class="pill">No multitarea</span>
-            <span class="pill">No móvil en bloques clave</span>
-            <span class="pill">Primero negocio</span>
-            <span class="pill">Acción > preparación</span>
-            <span class="pill">Consistencia brutal</span>
+        <aside class="side">
+          <div class="card">
+            <h3>Prioridades reales</h3>
+            <ul class="list-clean">
+              <li class="mini-item"><strong>1. Nuevo proyecto</strong><br>Oferta, foco, plan comercial y sistema.</li>
+              <li class="mini-item"><strong>2. IA aplicada</strong><br>No estudiar por estudiar. Construir algo usable.</li>
+              <li class="mini-item"><strong>3. Inglés de negocio</strong><br>Menos teoría, más speaking y escucha.</li>
+              <li class="mini-item"><strong>4. Energía y disciplina</strong><br>Tu ventaja está en sostener el ritmo.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Reglas del juego</h3>
+            <div class="pill-row">
+              <span class="pill">No multitarea</span>
+              <span class="pill">No móvil en bloques clave</span>
+              <span class="pill">Primero negocio</span>
+              <span class="pill">Acción &gt; preparación</span>
+              <span class="pill">Consistencia brutal</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Notas del día</h3>
+            <textarea id="dailyNotes" class="notes" placeholder="Escribe aquí lo importante: ideas, aprendizajes, bloqueos, próximas acciones..."></textarea>
+            <div class="footer-note">
+              Se guarda automáticamente en tu navegador. Ahora también queda reflejado en el histórico diario.
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Qué no debes hacer</h3>
+            <ul class="list-clean">
+              <li class="mini-item">Llenarte el día de tareas pequeñas para sentirte productivo.</li>
+              <li class="mini-item">Consumir contenido de IA sin aplicar nada en tu trabajo real.</li>
+              <li class="mini-item">Pensar que mejorar LinkedIn es solo cambiar la foto o publicar.</li>
+              <li class="mini-item">Confundir cansancio con avance.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="view" id="dashboardView">
+      <div class="dashboard">
+        <div class="dashboard-grid">
+          <div class="chart-box">
+            <div class="box-title">Últimos 7 días</div>
+            <div class="mini-chart" id="miniChart"></div>
+          </div>
+
+          <div class="summary-box">
+            <div class="box-title">Promedio 7 días</div>
+            <div class="summary-number" id="avg7Days">0%</div>
+            <p>Tu media real reciente. Esto separa intención de disciplina.</p>
+          </div>
+
+          <div class="streak-box">
+            <div class="box-title">Racha activa</div>
+            <div class="summary-number" id="currentStreak">0</div>
+            <p>Días seguidos superando el 70% de cumplimiento.</p>
+          </div>
+
+          <div class="summary-box">
+            <div class="box-title">Mejor día</div>
+            <div class="summary-number" id="bestDayValue">0%</div>
+            <p id="bestDayDate">Todavía sin datos potentes.</p>
           </div>
         </div>
+      </div>
 
-        <div class="card">
-          <h3>Notas del día</h3>
-          <textarea id="dailyNotes" class="notes" placeholder="Escribe aquí lo importante: ideas, aprendizajes, bloqueos, próximas acciones..."></textarea>
-          <div class="footer-note">
-            Se guarda automáticamente en tu navegador. Si cambias de dispositivo o borras datos del navegador, lo pierdes.
+      <div class="panel-box">
+        <h3>Historial de días</h3>
+        <p>Aquí ves tus registros diarios guardados. Si no mides, te engañas.</p>
+        <div class="history-list" id="historyList"></div>
+      </div>
+    </section>
+
+    <section class="view" id="extraTasksView">
+      <div class="main-grid">
+        <section class="extra-tasks-list" id="extraTasksListSection">
+          <div class="card">
+            <h3 style="margin-top:0;">Tareas extra no diarias</h3>
+            <p style="margin-top:0;">Aquí metes tareas puntuales: llamadas, recados, ideas, citas, gestiones o cualquier cosa fuera del plan fijo.</p>
+            <div class="extra-tasks-list" id="extraTasksList"></div>
           </div>
-        </div>
+        </section>
 
-        <div class="card">
-          <h3>Qué no debes hacer</h3>
-          <ul class="list-clean">
-            <li class="mini-item">Llenarte el día de tareas pequeñas para sentirte productivo.</li>
-            <li class="mini-item">Consumir contenido de IA sin aplicar nada en tu trabajo real.</li>
-            <li class="mini-item">Pensar que mejorar LinkedIn es solo cambiar la foto o publicar.</li>
-            <li class="mini-item">Confundir cansancio con avance.</li>
-          </ul>
-        </div>
-      </aside>
-    </div>
+        <aside class="side">
+          <div class="card">
+            <h3>Añadir nueva tarea extra</h3>
+            <div class="form-grid">
+              <input type="text" id="extraTaskTitle" class="task-text" placeholder="Ejemplo: Llamar al SEPE o preparar propuesta para cliente" />
+              <select id="extraTaskStatus" class="task-select">
+                <option value="pending">Pendiente</option>
+                <option value="done">Hecha</option>
+              </select>
+              <button class="button primary" id="addExtraTaskBtn" type="button">Añadir tarea extra</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Cómo usar esta zona</h3>
+            <ul class="list-clean">
+              <li class="mini-item">Añade tareas puntuales que no pertenecen a tu rutina diaria.</li>
+              <li class="mini-item">Edita texto si estaba mal definido. No trabajes con tareas ambiguas.</li>
+              <li class="mini-item">Elimina basura. Una lista sucia destruye foco.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
   </div>
 
   <script>
-    // ==============================
-    // CONFIGURACIÓN PRINCIPAL
-    // ==============================
-    // Aquí defines el plan diario. Si quieres cambiar horarios o tareas,
-    // toca este array y la app se actualiza sola.
-    const planBlocks = [
+    const defaultPlanBlocks = [
       {
         id: "morning-training",
         time: "07:30 - 09:00",
@@ -578,7 +909,6 @@
       }
     ];
 
-    // Mensajes duros para evitar complacencia.
     const dailyMessages = [
       "No te hace falta más tiempo. Te hace falta menos autoengaño.",
       "Estar ocupado no impresiona a nadie. Avanzar sí.",
@@ -587,23 +917,24 @@
       "Disciplina no es hacer mucho. Es hacer lo importante aunque no apetezca."
     ];
 
-    // Clave de localStorage. Aquí se guarda todo en el navegador.
-    const STORAGE_KEY = "sergio_plan_diario_app_v1";
+    const STORAGE_KEY = "sergio_plan_diario_app_v2";
 
-    // ==============================
-    // ESTADO DE LA APP
-    // ==============================
     let state = loadState();
 
-    // ==============================
-    // UTILIDADES
-    // ==============================
-    function getTodayKey() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, "0");
-      const day = String(today.getDate()).padStart(2, "0");
+    function getTodayKey(date = new Date()) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
       return `${year}-${month}-${day}`;
+    }
+
+    function formatDateLabel(dateString) {
+      const date = new Date(`${dateString}T12:00:00`);
+      return new Intl.DateTimeFormat("es-ES", {
+        weekday: "short",
+        day: "numeric",
+        month: "short"
+      }).format(date);
     }
 
     function formatTodayLabel() {
@@ -615,16 +946,41 @@
     }
 
     function capitalize(text) {
-      return text.charAt(0).toUpperCase() + text.slice(1);
+      return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
     }
 
-    function flattenTasks() {
-      return planBlocks.flatMap(block => block.tasks.map(task => task.id));
+    function cloneDefaultPlan() {
+      return JSON.parse(JSON.stringify(defaultPlanBlocks));
+    }
+
+    function normalizePlanIds(blocks) {
+      return blocks.map((block, blockIndex) => ({
+        ...block,
+        id: block.id || `block-${blockIndex + 1}`,
+        tasks: (block.tasks || []).map((task, taskIndex) => ({
+          ...task,
+          id: task.id || `task-${blockIndex + 1}-${taskIndex + 1}`
+        }))
+      }));
+    }
+
+    function flattenTasks(blocks = state.planBlocks) {
+      return blocks.flatMap(block => block.tasks.map(task => task.id));
     }
 
     function getProgress() {
       const allTasks = flattenTasks();
-      const completed = allTasks.filter(id => state.tasks[id]).length;
+      const completedDaily = allTasks.filter(id => state.today.tasks[id]).length;
+      const completedExtra = state.extraTasks.filter(task => task.status === "done").length;
+      const total = allTasks.length + state.extraTasks.length;
+      const completed = completedDaily + completedExtra;
+      const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+      return { completed, total, percentage, completedDaily, completedExtra };
+    }
+
+    function getDailyProgressOnly() {
+      const allTasks = flattenTasks();
+      const completed = allTasks.filter(id => state.today.tasks[id]).length;
       const total = allTasks.length;
       const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
       return { completed, total, percentage };
@@ -632,7 +988,7 @@
 
     function getBlockProgress(block) {
       const total = block.tasks.length;
-      const completed = block.tasks.filter(task => state.tasks[task.id]).length;
+      const completed = block.tasks.filter(task => state.today.tasks[task.id]).length;
       return { completed, total };
     }
 
@@ -641,15 +997,72 @@
       return dailyMessages[index];
     }
 
-    // ==============================
-    // PERSISTENCIA
-    // ==============================
     function createDefaultState() {
       return {
         dateKey: getTodayKey(),
-        tasks: {},
-        notes: ""
+        planBlocks: cloneDefaultPlan(),
+        today: {
+          tasks: {},
+          notes: ""
+        },
+        history: {},
+        extraTasks: []
       };
+    }
+
+    function saveCurrentDayToHistory() {
+      const daily = getDailyProgressOnly();
+      state.history[state.dateKey] = {
+        percentage: daily.percentage,
+        completed: daily.completed,
+        total: daily.total,
+        notes: state.today.notes,
+        savedAt: new Date().toISOString()
+      };
+    }
+
+    function migrateIfNeeded(parsed) {
+      if (parsed && parsed.tasks && parsed.notes !== undefined && !parsed.today) {
+        return {
+          dateKey: parsed.dateKey || getTodayKey(),
+          planBlocks: cloneDefaultPlan(),
+          today: {
+            tasks: parsed.tasks || {},
+            notes: parsed.notes || ""
+          },
+          history: {},
+          extraTasks: []
+        };
+      }
+      return parsed;
+    }
+
+    function rotateDayIfNeeded(parsed) {
+      const todayKey = getTodayKey();
+      if (parsed.dateKey !== todayKey) {
+        const previous = {
+          ...parsed,
+          dateKey: parsed.dateKey || todayKey
+        };
+        const tempState = {
+          ...previous,
+          planBlocks: normalizePlanIds(previous.planBlocks || cloneDefaultPlan()),
+          today: previous.today || { tasks: {}, notes: "" },
+          history: previous.history || {},
+          extraTasks: previous.extraTasks || []
+        };
+        const backupState = state;
+        state = tempState;
+        saveCurrentDayToHistory();
+        const newState = {
+          ...tempState,
+          dateKey: todayKey,
+          today: { tasks: {}, notes: "" }
+        };
+        state = backupState;
+        return newState;
+      }
+      return parsed;
     }
 
     function loadState() {
@@ -657,17 +1070,16 @@
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return createDefaultState();
 
-        const parsed = JSON.parse(raw);
-
-        // Si cambia el día, reseteamos checks pero mantenemos la estructura limpia.
-        if (parsed.dateKey !== getTodayKey()) {
-          return createDefaultState();
-        }
+        let parsed = JSON.parse(raw);
+        parsed = migrateIfNeeded(parsed);
+        parsed = rotateDayIfNeeded(parsed);
 
         return {
           dateKey: parsed.dateKey || getTodayKey(),
-          tasks: parsed.tasks || {},
-          notes: parsed.notes || ""
+          planBlocks: normalizePlanIds(parsed.planBlocks || cloneDefaultPlan()),
+          today: parsed.today || { tasks: {}, notes: "" },
+          history: parsed.history || {},
+          extraTasks: parsed.extraTasks || []
         };
       } catch (error) {
         console.error("Error cargando estado:", error);
@@ -676,43 +1088,38 @@
     }
 
     function saveState() {
+      saveCurrentDayToHistory();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-    // ==============================
-    // RENDERIZADO
-    // ==============================
     function renderHeader() {
       const { completed, total, percentage } = getProgress();
+      const daily = getDailyProgressOnly();
       document.getElementById("progressValue").textContent = `${percentage}%`;
       document.getElementById("completedTasks").textContent = `${completed} / ${total}`;
       document.getElementById("progressBar").style.width = `${percentage}%`;
       document.getElementById("todayLabel").textContent = capitalize(formatTodayLabel());
       document.getElementById("dailyMessage").textContent = getDailyMessage();
-      document.getElementById("dailyNotes").value = state.notes;
+      document.getElementById("dailyNotes").value = state.today.notes;
+      document.getElementById("todayFocusBadge").textContent = daily.percentage >= 70 ? "Hoy vas serio" : "Hoy no regales el día";
     }
 
     function renderCards() {
       const container = document.getElementById("cardsContainer");
       container.innerHTML = "";
 
-      planBlocks.forEach(block => {
+      state.planBlocks.forEach(block => {
         const { completed, total } = getBlockProgress(block);
-        const isDone = completed === total;
+        const isDone = completed === total && total > 0;
 
         const card = document.createElement("article");
         card.className = `card ${isDone ? "done" : ""}`;
 
         const tasksHTML = block.tasks.map(task => {
-          const checked = !!state.tasks[task.id];
+          const checked = !!state.today.tasks[task.id];
           return `
             <div class="task ${checked ? "checked" : ""}">
-              <input
-                type="checkbox"
-                id="${task.id}"
-                ${checked ? "checked" : ""}
-                data-task-id="${task.id}"
-              />
+              <input type="checkbox" id="${task.id}" ${checked ? "checked" : ""} data-task-id="${task.id}" />
               <label for="${task.id}">${task.label}</label>
             </div>
           `;
@@ -740,19 +1147,152 @@
       attachCheckboxEvents();
     }
 
+    function getHistoryEntries() {
+      saveCurrentDayToHistory();
+      return Object.entries(state.history)
+        .sort((a, b) => b[0].localeCompare(a[0]));
+    }
+
+    function getLast7HistoryEntries() {
+      return getHistoryEntries().slice(0, 7).reverse();
+    }
+
+    function getAverage7Days() {
+      const entries = getLast7HistoryEntries();
+      if (!entries.length) return 0;
+      const total = entries.reduce((sum, [, value]) => sum + (value.percentage || 0), 0);
+      return Math.round(total / entries.length);
+    }
+
+    function getBestDay() {
+      const entries = getHistoryEntries();
+      if (!entries.length) return null;
+      return entries.reduce((best, current) => {
+        if (!best) return current;
+        return (current[1].percentage || 0) > (best[1].percentage || 0) ? current : best;
+      }, null);
+    }
+
+    function getCurrentStreak() {
+      const entries = Object.entries(state.history).sort((a, b) => b[0].localeCompare(a[0]));
+      let streak = 0;
+      let cursor = new Date();
+
+      for (let i = 0; i < 90; i++) {
+        const key = getTodayKey(cursor);
+        const found = entries.find(([date]) => date === key);
+        if (found && (found[1].percentage || 0) >= 70) {
+          streak += 1;
+          cursor.setDate(cursor.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+      return streak;
+    }
+
+    function renderDashboard() {
+      const chart = document.getElementById("miniChart");
+      const historyList = document.getElementById("historyList");
+      const entries7 = getLast7HistoryEntries();
+      const allEntries = getHistoryEntries();
+      const bestDay = getBestDay();
+
+      chart.innerHTML = entries7.length ? entries7.map(([date, value]) => `
+        <div class="bar-col">
+          <div class="bar-value">${value.percentage || 0}%</div>
+          <div class="bar-wrap">
+            <div class="bar" style="height:${Math.max(value.percentage || 0, 8)}%"></div>
+          </div>
+          <div class="bar-label">${formatDateLabel(date)}</div>
+        </div>
+      `).join("") : '<div class="empty-state" style="grid-column:1/-1;">Todavía no hay histórico suficiente. Empieza a usar la app de verdad.</div>';
+
+      historyList.innerHTML = allEntries.length ? allEntries.map(([date, value]) => `
+        <div class="history-item">
+          <div>
+            <strong>${capitalize(formatDateLabel(date))}</strong>
+            <span>${value.completed || 0}/${value.total || 0} tareas · ${value.notes ? 'con notas' : 'sin notas'}</span>
+          </div>
+          <strong>${value.percentage || 0}%</strong>
+        </div>
+      `).join("") : '<div class="empty-state">Sin histórico aún. Ejecuta y guarda días.</div>';
+
+      document.getElementById("avg7Days").textContent = `${getAverage7Days()}%`;
+      document.getElementById("currentStreak").textContent = getCurrentStreak();
+      document.getElementById("bestDayValue").textContent = bestDay ? `${bestDay[1].percentage || 0}%` : '0%';
+      document.getElementById("bestDayDate").textContent = bestDay ? `Mejor registro: ${capitalize(formatDateLabel(bestDay[0]))}` : 'Todavía sin datos potentes.';
+    }
+
+    function renderExtraTasks() {
+      const container = document.getElementById("extraTasksList");
+      if (!state.extraTasks.length) {
+        container.innerHTML = '<div class="empty-state">No hay tareas extra. Añade solo lo importante, no ruido.</div>';
+        return;
+      }
+
+      container.innerHTML = state.extraTasks.map(task => `
+        <div class="extra-task-item ${task.status === 'done' ? 'done' : ''}">
+          <input type="checkbox" ${task.status === 'done' ? 'checked' : ''} data-extra-toggle="${task.id}" />
+          <div>
+            <div class="extra-task-title">${task.title}</div>
+            <div class="extra-task-meta">Creada: ${capitalize(formatDateLabel(task.createdAt.slice(0, 10)))} · Estado: ${task.status === 'done' ? 'Hecha' : 'Pendiente'}</div>
+          </div>
+          <button class="icon-btn edit" type="button" data-extra-edit="${task.id}">Editar</button>
+          <button class="icon-btn delete" type="button" data-extra-delete="${task.id}">Eliminar</button>
+        </div>
+      `).join("");
+
+      attachExtraTaskEvents();
+    }
+
     function renderApp() {
       renderHeader();
       renderCards();
+      renderDashboard();
+      renderExtraTasks();
     }
 
-    // ==============================
-    // EVENTOS
-    // ==============================
     function attachCheckboxEvents() {
       document.querySelectorAll("input[data-task-id]").forEach(checkbox => {
         checkbox.addEventListener("change", event => {
           const taskId = event.target.dataset.taskId;
-          state.tasks[taskId] = event.target.checked;
+          state.today.tasks[taskId] = event.target.checked;
+          saveState();
+          renderApp();
+        });
+      });
+    }
+
+    function attachExtraTaskEvents() {
+      document.querySelectorAll("[data-extra-toggle]").forEach(el => {
+        el.addEventListener("change", event => {
+          const id = event.target.dataset.extraToggle;
+          const task = state.extraTasks.find(item => item.id === id);
+          if (!task) return;
+          task.status = event.target.checked ? 'done' : 'pending';
+          saveState();
+          renderApp();
+        });
+      });
+
+      document.querySelectorAll("[data-extra-delete]").forEach(el => {
+        el.addEventListener("click", event => {
+          const id = event.target.dataset.extraDelete;
+          state.extraTasks = state.extraTasks.filter(item => item.id !== id);
+          saveState();
+          renderApp();
+        });
+      });
+
+      document.querySelectorAll("[data-extra-edit]").forEach(el => {
+        el.addEventListener("click", event => {
+          const id = event.target.dataset.extraEdit;
+          const task = state.extraTasks.find(item => item.id === id);
+          if (!task) return;
+          const newTitle = prompt('Edita la tarea:', task.title);
+          if (!newTitle || !newTitle.trim()) return;
+          task.title = newTitle.trim();
           saveState();
           renderApp();
         });
@@ -760,56 +1300,68 @@
     }
 
     document.getElementById("dailyNotes").addEventListener("input", event => {
-      state.notes = event.target.value;
+      state.today.notes = event.target.value;
       saveState();
     });
 
     document.getElementById("resetBtn").addEventListener("click", () => {
       const confirmed = confirm("Esto borrará checks y notas del día actual. ¿Seguro?");
       if (!confirmed) return;
-      state = createDefaultState();
+      state.today = { tasks: {}, notes: "" };
       saveState();
       renderApp();
     });
 
     document.getElementById("markAllBtn").addEventListener("click", () => {
-      flattenTasks().forEach(taskId => {
-        state.tasks[taskId] = true;
-      });
+      flattenTasks().forEach(taskId => { state.today.tasks[taskId] = true; });
       saveState();
       renderApp();
     });
 
-    // ==============================
-    // INICIALIZACIÓN
-    // ==============================
+    document.getElementById("saveDayBtn").addEventListener("click", () => {
+      saveState();
+      renderDashboard();
+      alert("Día guardado en el histórico.");
+    });
+
+    document.getElementById("addExtraTaskBtn").addEventListener("click", () => {
+      const input = document.getElementById("extraTaskTitle");
+      const status = document.getElementById("extraTaskStatus");
+      const title = input.value.trim();
+      if (!title) {
+        alert("Define una tarea concreta. Nada de cosas ambiguas.");
+        return;
+      }
+      state.extraTasks.unshift({
+        id: `extra-${Date.now()}`,
+        title,
+        status: status.value,
+        createdAt: new Date().toISOString()
+      });
+      input.value = "";
+      status.value = "pending";
+      saveState();
+      renderApp();
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+        button.classList.add('active');
+        document.getElementById(button.dataset.view).classList.add('active');
+      });
+    });
+
     renderApp();
 
-    // ==============================
-    // CÓMO PERSONALIZAR ESTA APP
-    // ==============================
-    // 1) Cambiar horarios o títulos:
-    //    Edita el array "planBlocks".
-    //
-    // 2) Añadir nuevas tareas:
-    //    Dentro de cada bloque, mete otro objeto en "tasks":
-    //    { id: "nuevo-id", label: "Texto de la tarea" }
-    //
-    // 3) Cambiar textos duros o mensajes:
-    //    Edita el array "dailyMessages".
-    //
-    // 4) Guardado de avances:
-    //    La app usa localStorage. Se guarda solo en este navegador.
-    //
-    // 5) Si quieres histórico por días:
-    //    Hay que ampliar la lógica para guardar por fecha sin resetear.
-    //    Ahora mismo está hecha para foco diario, no para analítica histórica.
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch(error => {
+          console.error("Error al registrar Service Worker:", error);
+        });
+      });
+    }
   </script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./service-worker.js");
-    });
-  }
-</script>
 </body>
 </html>
